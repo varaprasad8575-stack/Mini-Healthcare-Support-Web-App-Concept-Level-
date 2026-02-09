@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HealthBridge NGO App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f0f8ff;
+        }
+        .header {
+            text-align: center;
+            background: #4a90e2;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        .ai-bot {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #28a745;
+        }
+        .chat-box {
+            background: white;
+            height: 200px;
+            border: 2px solid #ddd;
+            padding: 15px;
+            overflow-y: scroll;
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
+        .chat-input {
+            width: 70%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        .send-btn {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .submit-btn {
+            background: #4a90e2;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background: #357abd;
+        }
+        .bot-msg {
+            background: #d4edda;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        .user-msg {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+            margin-left: 20%;
+            max-width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>🏥 HealthBridge NGO</h1>
+        <p>Patient Support & Volunteer Network</p>
+    </div>
+
+    <!-- AI CHATBOT (Main AI Feature) -->
+    <div class="ai-bot">
+        <h2>🤖 AI Health Assistant</h2>
+        <p><strong>Ask:</strong> medicine, volunteer, eligibility, services, contact</p>
+        
+        <div id="chatBox" class="chat-box">
+            <div class="bot-msg">Hello! I help with medicine availability, volunteer registration, and patient support. What do you need?</div>
+        </div>
+        
+        <input type="text" id="chatInput" class="chat-input" placeholder="Type your question...">
+        <button class="send-btn" onclick="sendMessage()">Send</button>
+    </div>
+
+    <!-- VOLUNTEER FORM -->
+    <div class="form-box">
+        <h2>👩‍⚕️ Volunteer Registration</h2>
+        <form id="volunteerForm">
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" required>
+            </div>
+            <div class="form-group">
+                <label>Phone:</label>
+                <input type="tel" required>
+            </div>
+            <div class="form-group">
+                <label>Skills:</label>
+                <select required>
+                    <option value="">Choose...</option>
+                    <option>Doctor/Nurse</option>
+                    <option>Medicine Delivery</option>
+                    <option>Counseling</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <button type="submit" class="submit-btn">Join as Volunteer</button>
+        </form>
+    </div>
+
+    <!-- PATIENT FORM -->
+    <div class="form-box">
+        <h2>🆘 Patient Support</h2>
+        <form id="patientForm">
+            <div class="form-group">
+                <label>Patient Name:</label>
+                <input type="text" required>
+            </div>
+            <div class="form-group">
+                <label>Age:</label>
+                <input type="number" required>
+            </div>
+            <div class="form-group">
+                <label>Help Needed:</label>
+                <textarea rows="4" required placeholder="Describe your need..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Request Help</button>
+        </form>
+    </div>
+
+    <script>
+        // AI CHATBOT - Student Level Logic
+        const botAnswers = {
+            medicine: "We give free medicines to BPL patients. Register to check stock.",
+            volunteer: "Volunteers deliver medicines and help patients. Register above!",
+            eligibility: "BPL families, rural patients, chronic illness patients.",
+            services: "Medicine delivery, counseling, volunteer matching.",
+            contact: "Phone: 9876543210 | Email: help@healthbridge.org",
+            default: "Try asking: medicine, volunteer, eligibility, services, contact"
+        };
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.toLowerCase().trim();
+            if (!message) return;
+
+            const chatBox = document.getElementById('chatBox');
+            
+            // Show user message
+            chatBox.innerHTML += '<div class="user-msg">' + input.value + '</div>';
+            
+            // Find answer
+            let answer = botAnswers.default;
+            for (const key in botAnswers) {
+                if (message.includes(key)) {
+                    answer = botAnswers[key];
+                    break;
+                }
+            }
+            
+            // Show bot reply (1 second delay)
+            setTimeout(function () {
+                chatBox.innerHTML += '<div class="bot-msg">Bot: ' + answer + '</div>';
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
+            
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Form submissions
+        document.getElementById('volunteerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Thank you! We will call you in 24 hours.');
+            this.reset();
+        });
+
+        document.getElementById('patientForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Help request sent! Volunteer will contact you soon.');
+            this.reset();
+        });
+
+        // Enter key for chat
+        document.getElementById('chatInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
