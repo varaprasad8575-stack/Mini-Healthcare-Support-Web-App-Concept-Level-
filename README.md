@@ -33,3 +33,5 @@ In the future, it can be extended with a backend, database, and real AI API.
 
 **Made by:** [siribommala devi naga vara prasad]  
 **Email:** [varaprasad.8575@gmail.com]
+**Netlify**[https://6989dbf6b4c9d921b0ac37bf--eclectic-rugelach-ba63ab.netlify.app/]
+**Github**[https://github.com/varaprasad8575-stack/Mini-Healthcare-Support-Web-App-Concept-Level-]
